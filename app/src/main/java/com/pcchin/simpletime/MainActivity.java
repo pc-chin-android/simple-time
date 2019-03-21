@@ -1,5 +1,7 @@
 package com.pcchin.simpletime;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
     public TimeThread stopwatchThread;
     public TimeThread timerThread;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private SectionsPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = findViewById(R.id.container);
+        viewPager.setAdapter(pagerAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                     return new TimerFragment();
             }
             return null;
+        }
+
+        // overriding getPageTitle()
+        @Override
+        public CharSequence getPageTitle(int position) {
+            String[] tabTitles = {getString(R.string.clock),
+            getString(R.string.stopwatch), getString(R.string.timer)};
+            return tabTitles[position];
         }
 
         @Override
