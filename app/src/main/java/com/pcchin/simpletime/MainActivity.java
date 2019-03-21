@@ -1,7 +1,5 @@
 package com.pcchin.simpletime;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -12,19 +10,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.pcchin.simpletime.fragment.ClockFragment;
 import com.pcchin.simpletime.fragment.StopwatchFragment;
 import com.pcchin.simpletime.fragment.TimerFragment;
+import com.pcchin.simpletime.thread.StopwatchThread;
+import com.pcchin.simpletime.thread.TimerThread;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
-    public TimeThread stopwatchThread;
-    public TimeThread timerThread;
+    public StopwatchThread stopwatchThread;
+    public TimerThread timerThread;
     private SectionsPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
