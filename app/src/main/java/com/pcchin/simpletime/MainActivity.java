@@ -21,7 +21,6 @@ import com.pcchin.simpletime.thread.TimerThread;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
-    public StopwatchThread stopwatchThread;
     public TimerThread timerThread;
     private SectionsPagerAdapter pagerAdapter;
     private ViewPager viewPager;

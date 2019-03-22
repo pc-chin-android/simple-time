@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pcchin.simpletime.R;
+import com.pcchin.simpletime.thread.StopwatchThread;
 
 public class StopwatchFragment extends Fragment {
-    public StopwatchFragment() {
-    }
+    private StopwatchThread stopwatchThread;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
