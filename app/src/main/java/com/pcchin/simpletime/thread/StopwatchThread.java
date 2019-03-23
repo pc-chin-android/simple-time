@@ -13,7 +13,7 @@ public class StopwatchThread extends Thread {
 
     }
 
-    public long getElapsedTime(int elapsedTime) {
+    public long getElapsedTime() {
         return this.elapsedTime;
     }
 }
