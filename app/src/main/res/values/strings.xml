@@ -7,4 +7,10 @@
     <string name="clock">Clock</string>
     <string name="stopwatch">Stopwatch</string>
     <string name="timer">Timer</string>
+
+    <!-- Button values -->
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="lap">Lap</string>
+    <string name="stop">Stop</string>
 </resources>
