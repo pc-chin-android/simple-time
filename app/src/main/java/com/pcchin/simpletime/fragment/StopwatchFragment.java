@@ -1,5 +1,6 @@
 package com.pcchin.simpletime.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pcchin.simpletime.R;
@@ -143,6 +146,18 @@ public class StopwatchFragment extends Fragment {
 
     private void onStopwatchLap() {
         lapsList.add(System.currentTimeMillis() - lastResumeTime + elapsedTime);
+        if (getView() != null) {
+            @SuppressLint("InflateParams") LinearLayout currentView =
+                    (LinearLayout) getLayoutInflater()
+                    .inflate(R.layout.view_stopwatch_content, null, false);
+            ((TextView) currentView.findViewById(R.id.content_int))
+                    .setText(String.format(Locale.ENGLISH, "%d", lapsList.size()));
+            ((TextView) currentView.findViewById(R.id.content_time))
+                    .setText(milliToString(lapsList.get(lapsList.size() - 1)));
+            ((LinearLayout) getView().findViewById(R.id.stopwatch_laplist)).addView(currentView);
+            // Scroll to bottom
+            ((ScrollView) getView().findViewById(R.id.stopwatch_scroll)).fullScroll(View.FOCUS_DOWN);
+        }
     }
 
     @NonNull
