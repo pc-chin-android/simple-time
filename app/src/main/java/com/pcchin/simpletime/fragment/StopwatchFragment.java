@@ -78,14 +78,16 @@ public class StopwatchFragment extends Fragment {
         return returnView;
     }
 
+    // Restores stopwatch state
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
     }
 
+    // Saves stopwatch state
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
     }
 
     // Stopwatch functions
