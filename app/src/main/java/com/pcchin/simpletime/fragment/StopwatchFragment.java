@@ -82,12 +82,59 @@ public class StopwatchFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        int currentState = sharedPref.getInt("stopwatchState", STATE_STOPPED);
+        if (currentState != STATE_STOPPED) {
+            // Update laps
+            lapsList = new ArrayList<>();
+            int lapsCount = sharedPref.getInt("stopwatchLapCount", 0);
+            for (int i = 0; i < lapsCount; i++) {
+                long currentLap = sharedPref.getLong(String.format(Locale.ENGLISH,
+                        "stopwatchLap%d", i), 0);
+                lapsList.add(currentLap);
+                // Show laps
+                @SuppressLint("InflateParams") LinearLayout currentView = (LinearLayout)
+                        getLayoutInflater().inflate(R.layout.view_stopwatch_content,
+                                null, false);
+                ((TextView) currentView.findViewById(R.id.content_int)).setText(String
+                    .format(Locale.ENGLISH, "%d", i + 1));
+                ((TextView) currentView.findViewById(R.id.content_time))
+                        .setText(milliToString(currentLap));
+                if (getView() != null) {
+                    ((LinearLayout) getView().findViewById(R.id.stopwatch_laplist)).addView(currentView);
+                }
+            }
+            elapsedTime = sharedPref.getLong("stopwatchElapsed", 0);
+
+            if (currentState == STATE_RUNNING) {
+                elapsedTime += System.currentTimeMillis() - sharedPref.getLong("stopwatchLast", 0);
+                onStopwatchResume();
+            } else {
+                // onStopwatchPause() is not called as stopwatchRunnable was not initiated
+                // and there is no changed in elapsed time
+                if (getView() != null) {
+                    ((Button) getView().findViewById(R.id.stopwatch_start_pause)).setText(R.string.resume);
+                    ((Button) getView().findViewById(R.id.stopwatch_lap_reset)).setText(R.string.stop);
+                    ((TextView) getView().findViewById(R.id.stopwatch_title))
+                            .setText(milliToString(elapsedTime));
+                }
+            }
+        }
     }
 
     // Saves stopwatch state
     @Override
     public void onStop() {
         super.onStop();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("stopwatchState", state);
+        editor.putLong("stopwatchElapsed", elapsedTime);
+        editor.putLong("stopwatchLast", lastResumeTime);
+        // Store laps
+        editor.putInt("stopwatchLapCount", lapsList.size());
+        for (int i = 0; i < lapsList.size(); i++) {
+            editor.putLong(String.format(Locale.ENGLISH, "stopwatchLap%d", i), lapsList.get(i));
+        }
+        editor.apply();
     }
 
     // Stopwatch functions
