@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.pcchin.simpletime.fragment.ClockFragment;
 import com.pcchin.simpletime.fragment.StopwatchFragment;
 import com.pcchin.simpletime.fragment.TimerFragment;
-import com.pcchin.simpletime.thread.StopwatchThread;
 import com.pcchin.simpletime.thread.TimerThread;
 
 public class MainActivity extends AppCompatActivity {
