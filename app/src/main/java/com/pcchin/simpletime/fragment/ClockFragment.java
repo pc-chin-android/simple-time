@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.pcchin.simpletime.MainActivity;
 import com.pcchin.simpletime.R;
-import com.pcchin.simpletime.thread.ClockThread;
+import com.pcchin.simpletime.ClockThread;
 
 import java.util.Locale;
 import java.util.TimeZone;

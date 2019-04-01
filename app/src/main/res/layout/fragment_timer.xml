@@ -1,8 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/timer_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:text="@string/blank"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/timer_input_hrs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="8dp"
+        android:digits="0123456789"
+        android:ems="10"
+        android:gravity="end"
+        android:hint="@string/blank"
+        android:inputType="number"
+        android:maxLength="5"
+        android:text="@string/zero"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timer_separator"
+        app:layout_constraintEnd_toStartOf="@+id/timer_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/timer_separator"
+        tools:ignore="Autofill" />
+
+    <TextView
+        android:id="@+id/timer_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/separator"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timer_current"
+        app:layout_constraintEnd_toEndOf="@+id/timer_current"
+        app:layout_constraintStart_toStartOf="@+id/timer_current"
+        app:layout_constraintTop_toTopOf="@+id/timer_current" />
+
+    <EditText
+        android:id="@+id/timer_input_mins"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="36dp"
+        android:digits="0123456789"
+        android:ems="10"
+        android:hint="@string/blank"
+        android:inputType="number"
+        android:maxLength="2"
+        android:text="@string/zero"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timer_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timer_separator"
+        app:layout_constraintTop_toTopOf="@+id/timer_separator"
+        tools:ignore="Autofill" />
+
+    <Button
+        android:id="@+id/timer_start_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_btn"
+        android:text="@string/start"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_current" />
 </android.support.constraint.ConstraintLayout>

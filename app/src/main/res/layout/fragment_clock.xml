@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/blank"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"

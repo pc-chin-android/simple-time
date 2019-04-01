@@ -1,4 +1,4 @@
-package com.pcchin.simpletime.thread;
+package com.pcchin.simpletime;
 
 import android.text.format.DateFormat;
 import android.view.View;

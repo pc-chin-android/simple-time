@@ -13,13 +13,9 @@ import android.widget.Toast;
 import com.pcchin.simpletime.fragment.ClockFragment;
 import com.pcchin.simpletime.fragment.StopwatchFragment;
 import com.pcchin.simpletime.fragment.TimerFragment;
-import com.pcchin.simpletime.thread.TimerThread;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
-    public TimerThread timerThread;
-    private SectionsPagerAdapter pagerAdapter;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = findViewById(R.id.container);
+        ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(pagerAdapter);
     }
 

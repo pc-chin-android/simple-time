@@ -210,7 +210,7 @@ public class StopwatchFragment extends Fragment {
     }
 
     @NonNull
-    public static String milliToString(long original) {
+    private static String milliToString(long original) {
         double millis = original % 1000;
         original = (int) Math.floor((original - millis) / 1000);
         double secs = original % 60;
