@@ -130,9 +130,13 @@ public class StopwatchFragment extends Fragment {
         editor.putLong("stopwatchElapsed", elapsedTime);
         editor.putLong("stopwatchLast", lastResumeTime);
         // Store laps
-        editor.putInt("stopwatchLapCount", lapsList.size());
-        for (int i = 0; i < lapsList.size(); i++) {
-            editor.putLong(String.format(Locale.ENGLISH, "stopwatchLap%d", i), lapsList.get(i));
+        if (lapsList != null) {
+            editor.putInt("stopwatchLapCount", lapsList.size());
+            for (int i = 0; i < lapsList.size(); i++) {
+                editor.putLong(String.format(Locale.ENGLISH, "stopwatchLap%d", i), lapsList.get(i));
+            }
+        } else {
+            editor.putInt("stopwatchLapCount", 0);
         }
         editor.apply();
     }

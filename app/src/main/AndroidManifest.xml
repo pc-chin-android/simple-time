@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pcchin.simpletime">
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <receiver android:name=".AlarmReceiver" />
+        <!-- The :remote is added to counter an unknown bug in which the alarm just won't work-->
+        <receiver android:name=".AlarmReceiver"
+            android:process=":remote"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -23,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".TimerAlertService" />
     </application>
 
 </manifest>

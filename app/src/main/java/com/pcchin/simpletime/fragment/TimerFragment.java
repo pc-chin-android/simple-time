@@ -30,7 +30,7 @@ public class TimerFragment extends Fragment {
     private PendingIntent timerAlarmIntent;
     private Handler timerHandler;
     private long targetTime;
-    private static final int TIMER_CODE = 482;
+    private static final int TIMER_CODE = 1;
 
     private TextView timerDisplay;
     private TextView timerSeparator;
@@ -42,10 +42,13 @@ public class TimerFragment extends Fragment {
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            timerDisplay.setText(secsToString(targetTime -
-                    ((int) System.currentTimeMillis() / 60)));
-            timerHandler.postDelayed(this, 1000);
-            timerDisplay.setText(getString(R.string.sec_zero));
+            long currentTime = (targetTime - System.currentTimeMillis()) / 1000;
+            if (currentTime > 0) {
+                timerDisplay.setText(secsToString(currentTime));
+                timerHandler.postDelayed(this, 1000);
+            } else if (currentTime < 0) {
+                onTimerStop(false);
+            }
         }
     };
 
@@ -74,7 +77,7 @@ public class TimerFragment extends Fragment {
                         if (((Button) v).getText().equals(getString(R.string.start))) {
                             onTimerStart();
                         } else {
-                            onTimerStop();
+                            onTimerStop(true);
                         }
                     }
                 });
@@ -90,24 +93,33 @@ public class TimerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Check if timer is running
-        setTimerDisplayed(sharedPref.getBoolean("timerRunning", false));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+        boolean timerRunning = sharedPref.getBoolean("timerRunning", false);
+        setTimerDisplayed(timerRunning);
+        if (timerRunning) {
+            targetTime = sharedPref.getLong("timerTime", 0);
+            timerHandler.postDelayed(timerRunnable, 0);
+        }
     }
 
     private void onTimerStart() {
         // Check if value is larger than 0
         if ((timerHrs.getText() != null && timerMins.getText() != null)
-        && (Integer.valueOf(timerMins.getText().toString()) > 0)) {
+                && (timerHrs.getText().toString().length() > 0
+                && timerMins.getText().toString().length() > 0)
+                && (Integer.valueOf(timerHrs.getText().toString()) > 0
+                || Integer.valueOf(timerMins.getText().toString()) > 0)) {
             setTimerDisplayed(true);
             // Show time
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.HOUR, Integer.valueOf(timerHrs.getText().toString()));
             calendar.add(Calendar.MINUTE, Integer.valueOf(timerMins.getText().toString()));
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), timerAlarmIntent);
+
+            // TODO: Remove
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.SECOND, 10);
+
+            targetTime = calendar.getTimeInMillis();
+            alarmManager.set(AlarmManager.RTC_WAKEUP, targetTime, timerAlarmIntent);
 
             // Update timer data to SharedPref
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -118,14 +130,16 @@ public class TimerFragment extends Fragment {
         }
     }
 
-    private void onTimerStop() {
+    private void onTimerStop(boolean removeAlert) {
         setTimerDisplayed(false);
         alarmManager.cancel(timerAlarmIntent);
         // Update timer data to SharedPref
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("timerRunning", false);
         editor.apply();
-        timerHandler.removeCallbacks(timerRunnable);
+        if (removeAlert) {
+            timerHandler.removeCallbacks(timerRunnable);
+        }
     }
 
     private void setTimerDisplayed(boolean isDisplayed) {
@@ -144,9 +158,9 @@ public class TimerFragment extends Fragment {
             timerBtn.setText(R.string.start);
         }
         timerDisplay.setEnabled(isDisplayed);
-        timerSeparator.setEnabled(isDisplayed);
-        timerHrs.setEnabled(isDisplayed);
-        timerMins.setEnabled(isDisplayed);
+        timerSeparator.setEnabled(! isDisplayed);
+        timerHrs.setEnabled(! isDisplayed);
+        timerMins.setEnabled(! isDisplayed);
     }
 
     @NonNull

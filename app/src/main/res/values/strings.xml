@@ -17,6 +17,7 @@
 
     <!-- String values -->
     <string name="separator">:</string>
+    <string name="times_up">Time\'s up!</string>
 
     <!-- Default values -->
     <string name="milli_zero">0:00:00:000</string>

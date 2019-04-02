@@ -1,6 +1,9 @@
 package com.pcchin.simpletime;
 
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import com.pcchin.simpletime.fragment.TimerFragment;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
+    private static final int OVERLAY_REQUEST = 32331;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Asks for permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ! Settings.canDrawOverlays(this)) {
+            requestPermissions(new String[]{Settings.ACTION_MANAGE_OVERLAY_PERMISSION}, OVERLAY_REQUEST);
+        }
     }
 
     @Override
@@ -84,6 +97,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return 3;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (grantResults.length <= 0 || grantResults[0] != RESULT_OK) {
+            Toast.makeText(this, "This permission is needed for the timer to work. " +
+                    "Please try again later", Toast.LENGTH_SHORT).show();
         }
     }
 }
