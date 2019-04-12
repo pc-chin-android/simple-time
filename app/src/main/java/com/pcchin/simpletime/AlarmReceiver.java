@@ -30,7 +30,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 manager.notify(ID_NOTIF, notif);
 
                 // Show alert view
-                Intent alertIntent = new Intent(context, TimerAlertService.class);
+                Intent alertIntent = new Intent(context, MainActivity.class);
+                alertIntent.putExtra("showAlert", true);
                 context.startService(alertIntent);
             }
         }).start();

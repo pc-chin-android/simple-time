@@ -1,5 +1,9 @@
 package com.pcchin.simpletime;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
@@ -25,6 +29,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Check if alert is needed to be displayed
+        if (getIntent().getBooleanExtra("showAlert", false)) {
+            // Start alarm
+            final MediaPlayer mp = MediaPlayer.create(this,
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+            mp.setLooping(true);
+            mp.start();
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.timer)
+                    .setMessage(R.string.times_up)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            mp.stop();
+                            mp.release();
+                        }
+                    })
+                    .create().show();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
