@@ -114,10 +114,6 @@ public class TimerFragment extends Fragment {
             calendar.add(Calendar.HOUR, Integer.valueOf(timerHrs.getText().toString()));
             calendar.add(Calendar.MINUTE, Integer.valueOf(timerMins.getText().toString()));
 
-            // TODO: Remove
-            calendar = Calendar.getInstance();
-            calendar.add(Calendar.SECOND, 10);
-
             targetTime = calendar.getTimeInMillis();
             alarmManager.set(AlarmManager.RTC_WAKEUP, targetTime, timerAlarmIntent);
 
